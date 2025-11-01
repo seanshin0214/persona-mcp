@@ -1,13 +1,19 @@
-# Persona MCP Server
+# Persona MCP Server v2.0 🚀
 
-Claude Desktop용 페르소나 관리 MCP 서버
+Claude Desktop용 고급 페르소나 관리 MCP 서버
 
-## 주요 기능
+## ✨ 주요 기능 (v2.0 혁신)
 
-- **잠수함 모드**: 기본적으로 토큰 사용 안 함
-- **필요할 때만 활성화**: `@persona:이름` 형식으로 참조
+### 🎯 핵심 기능
+- **잠수함 모드**: 기본적으로 토큰 사용 안 함 (0 토큰)
+- **필요할 때만 활성화**: `@persona:이름` 형식으로 트리거 기반 로드
 - **개별 파일 관리**: 각 페르소나를 `.txt` 파일로 저장
 - **간편한 관리**: 도구로 생성/수정/삭제
+
+### 🆕 v2.0 혁신 기능
+- **🧠 스마트 컨텍스트 감지**: AI가 대화 내용을 분석하여 적합한 페르소나 자동 제안
+- **🔗 페르소나 체이닝**: 여러 페르소나를 순차적으로 실행하여 복잡한 작업 처리
+- **📊 사용 분석**: 페르소나 사용 패턴 추적 및 추천 정확도 향상 (로컬만 저장)
 
 ## 토큰 절약 원리
 
@@ -185,12 +191,83 @@ bullet point 형식을 선호합니다.
 
 MCP 서버가 제공하는 도구:
 
+### 기본 도구
 1. **create_persona**: 새 페르소나 생성
 2. **update_persona**: 기존 페르소나 수정
 3. **delete_persona**: 페르소나 삭제
 4. **list_personas**: 모든 페르소나 목록
 
+### 🆕 v2.0 고급 도구
+5. **suggest_persona**: 대화 컨텍스트를 분석하여 적합한 페르소나 제안
+6. **chain_personas**: 여러 페르소나를 순차적으로 실행
+7. **get_analytics**: 페르소나 사용 통계 조회
+
 Claude가 자동으로 적절한 도구를 선택해서 실행합니다.
+
+---
+
+## 🆕 v2.0 고급 기능 사용법
+
+### 1. 스마트 페르소나 제안
+
+```
+당신: "Explain quantum mechanics to a 10-year-old"
+Claude: [suggest_persona 도구 실행]
+💡 페르소나 제안
+추천: @persona:teacher
+신뢰도: 85%
+이유: Context matches teacher pattern
+
+이 페르소나를 사용하려면 @persona:teacher 리소스를 참조하세요.
+```
+
+**작동 원리:**
+- 대화 내용에서 키워드 감지 ("explain", "teach", "understand")
+- 과거 사용 패턴 분석
+- 신뢰도와 함께 추천 제공
+- **승인 시에만 활성화** (잠수함 모드 유지)
+
+### 2. 페르소나 체이닝
+
+복잡한 작업을 여러 페르소나로 나누어 처리:
+
+```
+당신: "chain_personas 도구로 코드 리뷰를 단계별로 처리해줘"
+
+Step 1 - coder: 코드 분석 및 버그 발견
+Step 2 - teacher: 발견된 문제 초보자에게 설명
+Step 3 - professional: 공식 리포트 작성
+```
+
+**사용 시나리오:**
+- 코드 리뷰 → 설명 → 문서화
+- 분석 → 요약 → 프레젠테이션
+- 브레인스토밍 → 구조화 → 최종 제안
+
+### 3. 사용 분석
+
+```
+당신: "get_analytics 도구로 통계 보여줘"
+
+📊 Persona Usage Analytics
+
+사용 횟수:
+  professional: 15 uses
+  coder: 12 uses
+  teacher: 8 uses
+
+주요 컨텍스트 패턴:
+  professional: business, report, meeting
+  coder: function, debug, implement
+  teacher: explain, understand, learn
+
+💡 이 데이터는 로컬에만 저장되며 전송되지 않습니다.
+```
+
+**활용:**
+- 가장 많이 쓰는 페르소나 파악
+- 추천 시스템 정확도 향상
+- 개인화된 워크플로우 개선
 
 ---
 

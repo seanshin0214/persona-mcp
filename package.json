@@ -1,7 +1,7 @@
 {
   "name": "persona-mcp",
-  "version": "1.0.0",
-  "description": "Persona management MCP server with trigger-based activation",
+  "version": "2.0.0",
+  "description": "Advanced Persona MCP server with smart context detection, persona chaining, and analytics - Submarine Mode architecture for 80%+ token savings",
   "type": "module",
   "main": "index.js",
   "bin": {
@@ -13,7 +13,11 @@
   "keywords": [
     "mcp",
     "persona",
-    "claude"
+    "claude",
+    "ai",
+    "token-optimization",
+    "context-awareness",
+    "llm-tools"
   ],
   "author": "",
   "license": "MIT",

@@ -18,6 +18,7 @@ const __dirname = path.dirname(__filename);
 
 // 페르소나 저장 디렉토리
 const PERSONA_DIR = path.join(os.homedir(), '.persona');
+const ANALYTICS_FILE = path.join(PERSONA_DIR, '.analytics.json');
 
 // 페르소나 디렉토리 초기화
 async function initPersonaDir() {
@@ -59,6 +60,103 @@ async function savePersona(name, content) {
 async function deletePersona(name) {
   const filePath = path.join(PERSONA_DIR, `${name}.txt`);
   await fs.unlink(filePath);
+}
+
+// 분석 데이터 로드
+async function loadAnalytics() {
+  try {
+    const data = await fs.readFile(ANALYTICS_FILE, 'utf-8');
+    return JSON.parse(data);
+  } catch {
+    return { usage: {}, contextPatterns: {} };
+  }
+}
+
+// 분석 데이터 저장
+async function saveAnalytics(data) {
+  await fs.writeFile(ANALYTICS_FILE, JSON.stringify(data, null, 2), 'utf-8');
+}
+
+// 사용 기록 추가
+async function trackUsage(personaName, context = '') {
+  const analytics = await loadAnalytics();
+
+  // 사용 횟수 증가
+  if (!analytics.usage[personaName]) {
+    analytics.usage[personaName] = 0;
+  }
+  analytics.usage[personaName]++;
+
+  // 컨텍스트 패턴 저장 (경량화: 키워드만)
+  if (context) {
+    const keywords = context.toLowerCase().match(/\b\w{4,}\b/g) || [];
+    if (!analytics.contextPatterns[personaName]) {
+      analytics.contextPatterns[personaName] = {};
+    }
+    keywords.slice(0, 5).forEach(kw => {
+      analytics.contextPatterns[personaName][kw] =
+        (analytics.contextPatterns[personaName][kw] || 0) + 1;
+    });
+  }
+
+  await saveAnalytics(analytics);
+}
+
+// 스마트 페르소나 제안
+async function suggestPersona(context) {
+  const personas = await listPersonas();
+  if (personas.length === 0) {
+    return null;
+  }
+
+  const analytics = await loadAnalytics();
+  const contextLower = context.toLowerCase();
+
+  // 컨텍스트 키워드 분석
+  const detectionRules = [
+    { keywords: ['explain', 'teach', 'learn', 'understand', 'how', 'what', 'why'], persona: 'teacher', weight: 3 },
+    { keywords: ['code', 'function', 'bug', 'debug', 'program', 'implement'], persona: 'coder', weight: 3 },
+    { keywords: ['professional', 'business', 'formal', 'report', 'meeting'], persona: 'professional', weight: 2 },
+    { keywords: ['casual', 'chat', 'friendly', 'hey', 'talk'], persona: 'casual', weight: 2 },
+    { keywords: ['brief', 'short', 'quick', 'summary', 'concise'], persona: 'concise', weight: 2 },
+  ];
+
+  const scores = {};
+
+  // 규칙 기반 점수
+  detectionRules.forEach(rule => {
+    if (personas.includes(rule.persona)) {
+      const matchCount = rule.keywords.filter(kw => contextLower.includes(kw)).length;
+      if (matchCount > 0) {
+        scores[rule.persona] = (scores[rule.persona] || 0) + matchCount * rule.weight;
+      }
+    }
+  });
+
+  // 과거 사용 패턴 기반 점수 (가중치 낮게)
+  const contextKeywords = contextLower.match(/\b\w{4,}\b/g) || [];
+  personas.forEach(persona => {
+    if (analytics.contextPatterns[persona]) {
+      contextKeywords.forEach(kw => {
+        if (analytics.contextPatterns[persona][kw]) {
+          scores[persona] = (scores[persona] || 0) + 0.5;
+        }
+      });
+    }
+  });
+
+  // 최고 점수 페르소나 반환
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+  if (sorted.length > 0 && sorted[0][1] > 1) {
+    return {
+      persona: sorted[0][0],
+      confidence: Math.min(sorted[0][1] / 10, 0.95),
+      reason: `Context matches ${sorted[0][0]} pattern`,
+    };
+  }
+
+  return null;
 }
 
 // MCP 서버 생성
@@ -137,6 +235,47 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           properties: {},
         },
       },
+      {
+        name: 'suggest_persona',
+        description: '대화 컨텍스트를 분석하여 적합한 페르소나를 제안합니다 (트리거 시에만 활성화)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'string',
+              description: '분석할 대화 컨텍스트 또는 질문 내용',
+            },
+          },
+          required: ['context'],
+        },
+      },
+      {
+        name: 'chain_personas',
+        description: '여러 페르소나를 순차적으로 실행하여 단계별 처리를 수행합니다',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            personas: {
+              type: 'array',
+              items: { type: 'string' },
+              description: '순차 실행할 페르소나 이름 배열',
+            },
+            initialInput: {
+              type: 'string',
+              description: '첫 번째 페르소나에 전달할 입력',
+            },
+          },
+          required: ['personas', 'initialInput'],
+        },
+      },
+      {
+        name: 'get_analytics',
+        description: '페르소나 사용 통계를 조회합니다 (로컬 데이터만)',
+        inputSchema: {
+          type: 'object',
+          properties: {},
+        },
+      },
     ],
   };
 });
@@ -197,6 +336,103 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
+      case 'suggest_persona': {
+        const suggestion = await suggestPersona(args.context);
+
+        if (!suggestion) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: '💡 현재 컨텍스트에 적합한 페르소나를 찾을 수 없습니다.\n사용 가능한 페르소나 목록을 보려면 list_personas 도구를 사용하세요.',
+              },
+            ],
+          };
+        }
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `💡 페르소나 제안\n\n추천: @persona:${suggestion.persona}\n신뢰도: ${(suggestion.confidence * 100).toFixed(0)}%\n이유: ${suggestion.reason}\n\n이 페르소나를 사용하려면 @persona:${suggestion.persona} 리소스를 참조하세요.`,
+            },
+          ],
+        };
+      }
+
+      case 'chain_personas': {
+        const results = [];
+        let currentInput = args.initialInput;
+
+        for (const personaName of args.personas) {
+          try {
+            const personaContent = await readPersona(personaName);
+            await trackUsage(personaName, currentInput);
+
+            results.push({
+              persona: personaName,
+              prompt: personaContent,
+              input: currentInput,
+            });
+
+            // 다음 입력은 현재 페르소나의 출력이 될 것임을 명시
+            currentInput = `[Previous output from ${personaName} will be used as input here]`;
+          } catch (error) {
+            results.push({
+              persona: personaName,
+              error: error.message,
+            });
+            break;
+          }
+        }
+
+        const resultText = results.map((r, i) => {
+          if (r.error) {
+            return `Step ${i + 1} - ${r.persona}: ❌ ${r.error}`;
+          }
+          return `Step ${i + 1} - ${r.persona}:\n\nPrompt:\n${r.prompt}\n\nInput:\n${r.input}\n`;
+        }).join('\n' + '='.repeat(50) + '\n\n');
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `🔗 Persona Chain Execution\n\n${resultText}\n✅ Chain completed: ${results.filter(r => !r.error).length}/${args.personas.length} steps`,
+            },
+          ],
+        };
+      }
+
+      case 'get_analytics': {
+        const analytics = await loadAnalytics();
+
+        const usageList = Object.entries(analytics.usage)
+          .sort((a, b) => b[1] - a[1])
+          .map(([name, count]) => `  ${name}: ${count} uses`)
+          .join('\n');
+
+        const topPatterns = {};
+        Object.entries(analytics.contextPatterns).forEach(([persona, patterns]) => {
+          const sorted = Object.entries(patterns)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3);
+          topPatterns[persona] = sorted.map(([kw]) => kw);
+        });
+
+        const patternsList = Object.entries(topPatterns)
+          .map(([persona, keywords]) => `  ${persona}: ${keywords.join(', ')}`)
+          .join('\n');
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `📊 Persona Usage Analytics\n\n사용 횟수:\n${usageList || '  (no data)'}\n\n주요 컨텍스트 패턴:\n${patternsList || '  (no data)'}\n\n💡 이 데이터는 로컬에만 저장되며 전송되지 않습니다.`,
+            },
+          ],
+        };
+      }
+
       default:
         throw new Error(`Unknown tool: ${name}`);
     }
@@ -237,6 +473,9 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
 
   const personaName = match[1];
   const content = await readPersona(personaName);
+
+  // 사용 추적 (트리거 기반 - 실제 로드 시에만)
+  await trackUsage(personaName, '');
 
   return {
     contents: [
