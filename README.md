@@ -1,395 +1,354 @@
-# Persona MCP Server v2.0 🚀
+# 🎭 Persona MCP - Advanced AI Persona Management System
 
-Claude Desktop용 고급 페르소나 관리 MCP 서버
+**World's First MCP Persona Marketplace with Smart Context Detection, Persona Chaining, and 80%+ Token Savings**
 
-## ✨ 주요 기능 (v2.0 혁신)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Stars](https://img.shields.io/github/stars/seanshin0214/persona-mcp?style=social)](https://github.com/seanshin0214/persona-mcp)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Community Personas](https://img.shields.io/badge/personas-26-blue)](https://github.com/seanshin0214/persona-mcp/tree/main/community)
 
-### 🎯 핵심 기능
-- **잠수함 모드**: 기본적으로 토큰 사용 안 함 (0 토큰)
-- **필요할 때만 활성화**: `@persona:이름` 형식으로 트리거 기반 로드
-- **개별 파일 관리**: 각 페르소나를 `.txt` 파일로 저장
-- **간편한 관리**: 도구로 생성/수정/삭제
-
-### 🆕 v2.0 혁신 기능
-- **🧠 스마트 컨텍스트 감지**: AI가 대화 내용을 분석하여 적합한 페르소나 자동 제안
-- **🔗 페르소나 체이닝**: 여러 페르소나를 순차적으로 실행하여 복잡한 작업 처리
-- **📊 사용 분석**: 페르소나 사용 패턴 추적 및 추천 정확도 향상 (로컬만 저장)
-
-## 토큰 절약 원리
-
-### 기존 방식 (시스템 프롬프트):
-```
-매 대화: 페르소나 500토큰 소비
-100회 대화: 50,000토큰 낭비
-```
-
-### MCP 방식:
-```
-기본: 0토큰
-필요할 때만: @persona:default → 해당 대화에만 적용
-```
+An advanced persona management MCP server for Claude Desktop that revolutionizes how AI maintains specialized expertise while dramatically reducing token consumption.
 
 ---
 
-## 설치 방법
+## ✨ What is Persona MCP?
 
-### 1. 의존성 설치
+Persona MCP is a **Model Context Protocol (MCP) server** that allows you to:
+- 🎯 **Switch between 26 world-class expert personas** on demand
+- 🚢 **Save 80%+ tokens** with "Submarine Mode" (0 tokens until triggered)
+- 🧠 **Smart context detection** - AI suggests the right persona automatically
+- 🔗 **Chain personas** for multi-step workflows
+- 🌍 **Community marketplace** - share and monetize your expertise
+
+---
+
+## 🚀 Key Features
+
+### Core Capabilities
+- **Submarine Mode**: Zero token consumption by default
+- **Trigger-Based Activation**: Load personas only when needed via `@persona:name`
+- **Individual File Management**: Each persona stored as a `.txt` file
+- **Simple CRUD Operations**: Create, update, delete personas with MCP tools
+
+### v2.0 Innovations
+- **🧠 Smart Context Detection**: AI analyzes conversation and suggests optimal persona
+- **🔗 Persona Chaining**: Execute multiple personas sequentially for complex tasks
+- **📊 Usage Analytics**: Track patterns and improve recommendations (local storage only)
+- **🌟 Community Collection**: 26 expert personas ready to use
+
+---
+
+## 💡 How Token Savings Work
+
+### Traditional Approach (System Prompt)
+```
+Every conversation: 500 tokens consumed
+100 conversations: 50,000 tokens wasted
+Even when expertise isn't needed
+```
+
+### Persona MCP Approach
+```
+Default: 0 tokens (Submarine Mode)
+When needed: @persona:name → Active only for that conversation
+Next conversation: Back to 0 tokens
+```
+
+**Result**: 80%+ token savings in real-world usage
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+- Claude Desktop
+- Node.js 18+
+- npm or yarn
+
+### Steps
+
+1. **Clone and Install**
 ```bash
-cd C:\Users\sshin\Documents\persona-mcp
+git clone https://github.com/seanshin0214/persona-mcp.git
+cd persona-mcp
 npm install
 ```
 
-### 2. Claude Desktop 설정
+2. **Configure Claude Desktop**
 
-`%APPDATA%\Claude\claude_desktop_config.json` 파일에 추가:
+Edit `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac):
 
 ```json
 {
   "mcpServers": {
     "persona": {
       "command": "node",
-      "args": ["C:\\Users\\sshin\\Documents\\persona-mcp\\index.js"]
+      "args": ["C:\\path\\to\\persona-mcp\\index.js"]
     }
   }
 }
 ```
 
-### 3. Claude Desktop 재시작
+3. **Restart Claude Desktop**
 
 ---
 
-## 사용 방법
+## 🎯 Quick Start
 
-### 페르소나 생성
-
-Claude Desktop에서:
-```
-페르소나 만들어줘. 이름은 "professional", 내용은 다음과 같아:
-
-당신은 전문적이고 격식있는 톤으로 대화합니다.
-항상 존댓말을 사용하며, 비즈니스 맥락에 적합한 표현을 선택합니다.
-```
-
-→ MCP 도구 `create_persona` 실행됨
-→ `~/.persona/professional.txt` 파일 생성
-
-### 페르소나 목록 확인
+### 1. Browse Community Personas
 
 ```
-사용 가능한 페르소나 목록 보여줘
+You: "Browse community personas"
+Claude: [Executes browse_community tool]
+
+🌟 Community Persona Collection
+
+Found 26 personas
+
+## Innovation & Technology
+- innovation-expert
+- ai-engineer
+- fullstack-dev
+...
 ```
 
-### 페르소나 활성화 (핵심!)
+### 2. Install a Persona
 
 ```
-@persona:professional 이 이메일 초안 검토해줘
+You: "Install innovation-expert persona"
+Claude: [Executes install_community_persona]
+✅ Persona "innovation-expert" installed successfully!
 ```
 
-→ 이 대화에만 "professional" 페르소나 적용
-→ 다음 대화부터는 다시 기본 모드
-
-### 페르소나 수정
+### 3. Use the Persona
 
 ```
-"professional" 페르소나 수정해줘. 좀 더 친근하게 바꿔줘.
+You: "@persona:innovation-expert Analyze our product's disruption potential"
+Claude: [Activates innovation expert persona and analyzes]
 ```
 
-### 페르소나 삭제
+### 4. Smart Suggestions
 
 ```
-"professional" 페르소나 삭제해줘
+You: "Explain quantum computing to a 10-year-old"
+Claude: [Executes suggest_persona]
+💡 Persona Suggestion
+Recommended: @persona:science-teacher
+Confidence: 85%
+Reason: Educational context detected
 ```
-
----
-
-## 페르소나 파일 위치
-
-- Windows: `C:\Users\사용자명\.persona\`
-- Mac/Linux: `~/.persona/`
-
-각 페르소나는 `이름.txt` 형식으로 저장됩니다.
-
-직접 파일을 수정해도 됩니다:
-```bash
-notepad C:\Users\sshin\.persona\professional.txt
-```
-
----
-
-## 사용 예시
-
-### 예시 1: 기본 대화 (토큰 절약)
-
-```
-당신: "안녕, 오늘 날씨 어때?"
-Claude: "안녕하세요! [일반 응답]"
-→ 페르소나 미사용, 토큰 절약
-```
-
-### 예시 2: 페르소나 활성화
-
-```
-당신: "@persona:professional 비즈니스 제안서 검토해주세요"
-Claude: "[professional 페르소나로 격식있게 응답]"
-→ 이 대화에만 페르소나 토큰 사용
-```
-
-### 예시 3: 여러 페르소나 전환
-
-```
-당신: "@persona:casual 이 코드 설명해줘"
-Claude: "[편하게 설명]"
-
-당신: "@persona:teacher 이번엔 초보자에게 설명하듯이"
-Claude: "[교육적으로 설명]"
-```
-
----
-
-## 추천 페르소나 예제
-
-### 1. professional (비즈니스)
-```
-당신은 전문적이고 격식있는 톤으로 대화합니다.
-존댓말을 사용하며, 비즈니스 맥락에 적합한 표현을 선택합니다.
-간결하고 명확하게 핵심을 전달합니다.
-```
-
-### 2. casual (일상)
-```
-친근하고 편안한 톤으로 대화합니다.
-반말을 사용하되 예의는 지킵니다.
-이모지를 적절히 사용할 수 있습니다.
-```
-
-### 3. teacher (교육)
-```
-학생을 가르치는 선생님처럼 설명합니다.
-복잡한 개념을 쉽게 풀어서 설명합니다.
-예시와 비유를 많이 사용합니다.
-질문을 유도하여 이해도를 확인합니다.
-```
-
-### 4. coder (개발)
-```
-기술적으로 정확하고 구체적으로 설명합니다.
-코드 예제를 풍부하게 제공합니다.
-베스트 프랙티스를 강조합니다.
-보안과 성능을 항상 고려합니다.
-```
-
-### 5. concise (간결)
-```
-최소한의 말로 핵심만 전달합니다.
-불필요한 수식어를 배제합니다.
-bullet point 형식을 선호합니다.
-```
-
----
-
-## 도구 목록
-
-MCP 서버가 제공하는 도구:
-
-### 기본 도구
-1. **create_persona**: 새 페르소나 생성
-2. **update_persona**: 기존 페르소나 수정
-3. **delete_persona**: 페르소나 삭제
-4. **list_personas**: 모든 페르소나 목록
-
-### 🆕 v2.0 고급 도구
-5. **suggest_persona**: 대화 컨텍스트를 분석하여 적합한 페르소나 제안
-6. **chain_personas**: 여러 페르소나를 순차적으로 실행
-7. **get_analytics**: 페르소나 사용 통계 조회
-
-Claude가 자동으로 적절한 도구를 선택해서 실행합니다.
-
----
-
-## 🆕 v2.0 고급 기능 사용법
-
-### 1. 스마트 페르소나 제안
-
-```
-당신: "Explain quantum mechanics to a 10-year-old"
-Claude: [suggest_persona 도구 실행]
-💡 페르소나 제안
-추천: @persona:teacher
-신뢰도: 85%
-이유: Context matches teacher pattern
-
-이 페르소나를 사용하려면 @persona:teacher 리소스를 참조하세요.
-```
-
-**작동 원리:**
-- 대화 내용에서 키워드 감지 ("explain", "teach", "understand")
-- 과거 사용 패턴 분석
-- 신뢰도와 함께 추천 제공
-- **승인 시에만 활성화** (잠수함 모드 유지)
-
-### 2. 페르소나 체이닝
-
-복잡한 작업을 여러 페르소나로 나누어 처리:
-
-```
-당신: "chain_personas 도구로 코드 리뷰를 단계별로 처리해줘"
-
-Step 1 - coder: 코드 분석 및 버그 발견
-Step 2 - teacher: 발견된 문제 초보자에게 설명
-Step 3 - professional: 공식 리포트 작성
-```
-
-**사용 시나리오:**
-- 코드 리뷰 → 설명 → 문서화
-- 분석 → 요약 → 프레젠테이션
-- 브레인스토밍 → 구조화 → 최종 제안
-
-### 3. 사용 분석
-
-```
-당신: "get_analytics 도구로 통계 보여줘"
-
-📊 Persona Usage Analytics
-
-사용 횟수:
-  professional: 15 uses
-  coder: 12 uses
-  teacher: 8 uses
-
-주요 컨텍스트 패턴:
-  professional: business, report, meeting
-  coder: function, debug, implement
-  teacher: explain, understand, learn
-
-💡 이 데이터는 로컬에만 저장되며 전송되지 않습니다.
-```
-
-**활용:**
-- 가장 많이 쓰는 페르소나 파악
-- 추천 시스템 정확도 향상
-- 개인화된 워크플로우 개선
 
 ---
 
 ## 🌟 Community Persona Collection
 
-**26개의 월드클래스 전문가 페르소나를 무료로 제공합니다!**
+**26 world-class expert personas included!**
 
-### 📦 포함된 페르소나 (21개 by @seanshin0214 + 5개 예제)
+### Innovation & Technology (5)
+- `innovation-expert` - Innovation strategy and disruption analysis
+- `ai-engineer` - AI/ML engineering and architecture
+- `fullstack-dev` - Full-stack web development
+- `data-engineer` - Data pipelines and infrastructure
+- `devops-engineer` - DevOps, CI/CD, cloud infrastructure
 
-**혁신 & 기술:**
-- innovation-expert - 혁신 전문가
-- ai-engineer - AI 엔지니어
-- fullstack-dev - 풀스택 개발자
-- data-engineer - 데이터 엔지니어
-- devops-engineer - DevOps 엔지니어
+### Business & Strategy (6)
+- `business-mgmt` - Business management and operations
+- `strategy-consultant` - Strategic consulting and planning
+- `product-manager` - Product management and roadmapping
+- `vp-innovation` - VP of Innovation perspective
+- `disruptive-entrepreneur` - Disruptive business models
+- `global-startup` - Global startup strategy
 
-**비즈니스 & 전략:**
-- business-mgmt - 비즈니스 경영
-- strategy-consultant - 전략 컨설턴트
-- product-manager - 프로덕트 매니저
-- vp-innovation - VP of Innovation
-- disruptive-entrepreneur - 파괴적 혁신 기업가
-- global-startup - 글로벌 스타트업 전문가
+### Education & Learning (7)
+- `education-policy` - Education policy and reform
+- `intl-education` - International education systems
+- `student-mobility` - Student mobility and exchange programs
+- `elite-tutor` - Elite tutoring and exam preparation
+- `college-consultant` - College admissions consulting
+- `university-president` - University leadership perspective
+- `science-teacher` - Science education
 
-**교육 & 학습:**
-- education-policy - 교육 정책 전문가
-- intl-education - 국제교육 전문가
-- student-mobility - 학생 이동성 전문가
-- elite-tutor - 엘리트 튜터
-- college-consultant - 대학 컨설턴트
-- university-president - 대학 총장
-- science-teacher - 과학 교사
+### Analytics (2)
+- `business-analytics` - Business data analysis
+- `education-analytics` - Education data and metrics
 
-**애널리틱스:**
-- business-analytics - 비즈니스 분석
-- education-analytics - 교육 분석
+### Professional Services (2)
+- `harvard-law-dispute` - Harvard Law School dispute resolution
+- `harvard-phd-negotiation` - Harvard PhD-level negotiation
 
-**전문 서비스:**
-- harvard-law-dispute - 하버드 로스쿨 분쟁 해결
-- harvard-phd-negotiation - 하버드 PhD 협상
-
-**예제 페르소나:**
-- python-master - Python 프로그래밍
-- creative-writer - 창작 작가
-- product-strategist - 제품 전략
-- ux-design-expert - UX 디자인
-
-### 🚀 커뮤니티 페르소나 사용하기
-
-```
-당신: "browse_community 도구로 사용 가능한 페르소나 보여줘"
-Claude: [26개 페르소나 목록 표시]
-
-당신: "install_community_persona 도구로 innovation-expert 설치해줘"
-Claude: ✅ Installed!
-
-당신: "@persona:innovation-expert 우리 제품의 혁신 전략 분석해줘"
-Claude: [혁신 전문가 페르소나로 분석]
-```
-
-### 💡 Vision: Persona Marketplace
-
-이것은 시작에 불과합니다! **세계 최초 MCP Persona Marketplace**를 만들고 있습니다.
-
-**Phase 1 (현재):** GitHub 커뮤니티 페르소나 (무료)
-**Phase 2 (개발 중):** Persona Hub 웹사이트
-**Phase 3 (계획):** 프리미엄 페르소나 + 크리에이터 수익 분배
-
-자세한 내용: [VISION.md](VISION.md)
-
-### 🤝 기여하기
-
-당신만의 전문가 페르소나를 공유하고 싶으신가요?
-
-**수익 분배 약속:** Persona Hub 출시 시 70% 크리에이터 / 30% 플랫폼
-
-자세한 가이드: [CONTRIBUTING.md](CONTRIBUTING.md)
+### Example Personas (4)
+- `python-master` - Python programming expert
+- `creative-writer` - Creative writing and storytelling
+- `product-strategist` - Product strategy
+- `ux-design-expert` - UX design and user research
 
 ---
 
-## 리소스 참조 방법
+## 🛠️ Advanced Features
 
-페르소나는 MCP 리소스로 노출됩니다:
+### Persona Chaining
+
+Execute complex multi-step workflows:
 
 ```
-URI: persona://이름
-예: persona://professional
-    persona://casual
-    persona://teacher
+You: "Chain these personas: coder → teacher → professional"
+
+Step 1 - coder: Code analysis and bug detection
+Step 2 - teacher: Explain findings to beginners
+Step 3 - professional: Create formal report
+
+✅ Chain completed: 3/3 steps
 ```
 
-사용:
+**Use Cases:**
+- Code review → Documentation → Presentation
+- Analysis → Summary → Executive brief
+- Brainstorming → Structure → Final proposal
+
+### Usage Analytics
+
 ```
-@persona:professional 내용
+You: "Show persona analytics"
+
+📊 Persona Usage Analytics
+
+Usage count:
+  professional: 15 uses
+  coder: 12 uses
+  teacher: 8 uses
+
+Top context patterns:
+  professional: business, report, meeting
+  coder: function, debug, implement
+  teacher: explain, understand, learn
+
+💡 Data stored locally only (never transmitted)
 ```
 
 ---
 
-## 문제 해결
+## 🔧 MCP Tools
 
-### MCP 서버가 안 보여요
-1. Claude Desktop 완전 종료 후 재시작
-2. 설정 파일 경로 확인: `%APPDATA%\Claude\claude_desktop_config.json`
-3. JSON 문법 오류 확인 (쉼표, 중괄호)
+### Basic Tools
+1. **create_persona** - Create new persona
+2. **update_persona** - Modify existing persona
+3. **delete_persona** - Remove persona
+4. **list_personas** - List all available personas
 
-### 페르소나가 적용 안 돼요
-- `@persona:이름` 형식 정확히 입력했는지 확인
-- 페르소나 이름 철자 확인
-- `list_personas` 도구로 사용 가능한 페르소나 확인
-
-### 파일 위치를 모르겠어요
-Windows: `C:\Users\사용자명\.persona\`
-폴더가 숨김 폴더일 수 있습니다 (탐색기에서 숨김 파일 표시)
-
----
-
-## 라이선스
-
-MIT
+### Advanced Tools (v2.0)
+5. **suggest_persona** - AI-powered persona recommendation
+6. **chain_personas** - Sequential persona execution
+7. **get_analytics** - View usage statistics
+8. **browse_community** - Explore community collection
+9. **install_community_persona** - One-click install from community
 
 ---
 
-## 제작
+## 💡 Vision: Persona Marketplace
 
-2025-11-01
+This is just the beginning! We're building the **world's first MCP Persona Marketplace**.
+
+### Roadmap
+
+**Phase 1 (Current):** GitHub Community
+- ✅ 26 free personas
+- ✅ Open source (MIT)
+- ✅ Community contributions
+
+**Phase 2 (In Development):** Persona Hub Website
+- 🚧 Web-based marketplace
+- 🚧 Search and discovery
+- 🚧 One-click installation
+
+**Phase 3 (Planned):** Creator Economy
+- 💰 Premium personas
+- 💰 70/30 revenue sharing (Creator/Platform)
+- 💰 Monetize your expertise
+
+See [VISION.md](VISION.md) for details.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Share your expertise with the community.
+
+### How to Contribute a Persona
+
+1. Create persona following [community examples](community/)
+2. Include metadata (Author, Category, Version)
+3. Submit via [Persona Submission Issue](https://github.com/seanshin0214/persona-mcp/issues/new?template=persona_submission.md)
+4. Or create a Pull Request
+
+### Revenue Sharing Promise
+
+**When Persona Hub launches:**
+- 70% to Creator
+- 30% to Platform
+- Minimum payout: $50/month
+- Monthly transparent reports
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
+
+---
+
+## 📚 Documentation
+
+- [VISION.md](VISION.md) - Long-term vision and roadmap
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines and revenue sharing
+- [Community Personas](community/) - Browse all 26 personas
+
+---
+
+## 🐛 Troubleshooting
+
+### MCP Server Not Showing
+
+1. Completely quit and restart Claude Desktop
+2. Check config file path: `%APPDATA%\Claude\claude_desktop_config.json`
+3. Verify JSON syntax (commas, brackets)
+
+### Persona Not Activating
+
+- Use exact format: `@persona:name`
+- Check persona name spelling
+- Run `list_personas` to see available personas
+
+### File Location Issues
+
+**Windows:** `C:\Users\YourName\.persona\`
+**Mac/Linux:** `~/.persona/`
+
+Note: Folder may be hidden (enable "Show hidden files" in Explorer)
+
+---
+
+## 📄 License
+
+MIT License - See [LICENSE](LICENSE) for details
+
+---
+
+## 🙏 Acknowledgments
+
+Built with:
+- [Model Context Protocol SDK](https://github.com/modelcontextprotocol/sdk) by Anthropic
+- [docx](https://www.npmjs.com/package/docx) for Word export
+
+Special thanks to all community contributors!
+
+---
+
+## 🔗 Links
+
+- **GitHub**: https://github.com/seanshin0214/persona-mcp
+- **Issues**: https://github.com/seanshin0214/persona-mcp/issues
+- **Discussions**: https://github.com/seanshin0214/persona-mcp/discussions
+
+---
+
+**Created by**: @seanshin0214
+**Version**: 2.0.0
+**Last Updated**: 2025-11-02
+
+🎭 **Join the Persona Revolution!** ⭐ Star the repo to support the project!
