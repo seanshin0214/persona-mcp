@@ -1,7 +1,7 @@
 {
   "name": "persona-mcp",
   "version": "2.0.0",
-  "description": "Advanced Persona MCP server with smart context detection, persona chaining, and analytics - Submarine Mode architecture for 80%+ token savings",
+  "description": "Advanced Persona MCP with 26 world-class expert personas, smart context detection, persona chaining, and community marketplace. Submarine Mode for 80%+ token savings.",
   "type": "module",
   "main": "index.js",
   "bin": {

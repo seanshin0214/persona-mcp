@@ -271,6 +271,83 @@ Step 3 - professional: 공식 리포트 작성
 
 ---
 
+## 🌟 Community Persona Collection
+
+**26개의 월드클래스 전문가 페르소나를 무료로 제공합니다!**
+
+### 📦 포함된 페르소나 (21개 by @seanshin0214 + 5개 예제)
+
+**혁신 & 기술:**
+- innovation-expert - 혁신 전문가
+- ai-engineer - AI 엔지니어
+- fullstack-dev - 풀스택 개발자
+- data-engineer - 데이터 엔지니어
+- devops-engineer - DevOps 엔지니어
+
+**비즈니스 & 전략:**
+- business-mgmt - 비즈니스 경영
+- strategy-consultant - 전략 컨설턴트
+- product-manager - 프로덕트 매니저
+- vp-innovation - VP of Innovation
+- disruptive-entrepreneur - 파괴적 혁신 기업가
+- global-startup - 글로벌 스타트업 전문가
+
+**교육 & 학습:**
+- education-policy - 교육 정책 전문가
+- intl-education - 국제교육 전문가
+- student-mobility - 학생 이동성 전문가
+- elite-tutor - 엘리트 튜터
+- college-consultant - 대학 컨설턴트
+- university-president - 대학 총장
+- science-teacher - 과학 교사
+
+**애널리틱스:**
+- business-analytics - 비즈니스 분석
+- education-analytics - 교육 분석
+
+**전문 서비스:**
+- harvard-law-dispute - 하버드 로스쿨 분쟁 해결
+- harvard-phd-negotiation - 하버드 PhD 협상
+
+**예제 페르소나:**
+- python-master - Python 프로그래밍
+- creative-writer - 창작 작가
+- product-strategist - 제품 전략
+- ux-design-expert - UX 디자인
+
+### 🚀 커뮤니티 페르소나 사용하기
+
+```
+당신: "browse_community 도구로 사용 가능한 페르소나 보여줘"
+Claude: [26개 페르소나 목록 표시]
+
+당신: "install_community_persona 도구로 innovation-expert 설치해줘"
+Claude: ✅ Installed!
+
+당신: "@persona:innovation-expert 우리 제품의 혁신 전략 분석해줘"
+Claude: [혁신 전문가 페르소나로 분석]
+```
+
+### 💡 Vision: Persona Marketplace
+
+이것은 시작에 불과합니다! **세계 최초 MCP Persona Marketplace**를 만들고 있습니다.
+
+**Phase 1 (현재):** GitHub 커뮤니티 페르소나 (무료)
+**Phase 2 (개발 중):** Persona Hub 웹사이트
+**Phase 3 (계획):** 프리미엄 페르소나 + 크리에이터 수익 분배
+
+자세한 내용: [VISION.md](VISION.md)
+
+### 🤝 기여하기
+
+당신만의 전문가 페르소나를 공유하고 싶으신가요?
+
+**수익 분배 약속:** Persona Hub 출시 시 70% 크리에이터 / 30% 플랫폼
+
+자세한 가이드: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+---
+
 ## 리소스 참조 방법
 
 페르소나는 MCP 리소스로 노출됩니다:

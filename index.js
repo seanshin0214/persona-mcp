@@ -19,6 +19,7 @@ const __dirname = path.dirname(__filename);
 // 페르소나 저장 디렉토리
 const PERSONA_DIR = path.join(os.homedir(), '.persona');
 const ANALYTICS_FILE = path.join(PERSONA_DIR, '.analytics.json');
+const COMMUNITY_DIR = path.join(__dirname, 'community');
 
 // 페르소나 디렉토리 초기화
 async function initPersonaDir() {
@@ -100,6 +101,70 @@ async function trackUsage(personaName, context = '') {
   }
 
   await saveAnalytics(analytics);
+}
+
+// 커뮤니티 페르소나 목록 가져오기
+async function listCommunityPersonas() {
+  try {
+    const files = await fs.readdir(COMMUNITY_DIR);
+    const personas = [];
+
+    for (const file of files.filter(f => f.endsWith('.txt'))) {
+      const name = file.replace('.txt', '');
+      const filePath = path.join(COMMUNITY_DIR, file);
+      const content = await fs.readFile(filePath, 'utf-8');
+
+      // 메타데이터 추출
+      const lines = content.split('\n');
+      const metadata = {};
+      for (const line of lines) {
+        if (line.startsWith('# ')) {
+          const match = line.match(/^# (\w+):\s*(.+)$/);
+          if (match) {
+            metadata[match[1].toLowerCase()] = match[2];
+          }
+        } else if (!line.startsWith('#')) {
+          break; // 메타데이터 섹션 끝
+        }
+      }
+
+      personas.push({
+        name,
+        ...metadata,
+        file
+      });
+    }
+
+    return personas;
+  } catch (error) {
+    console.error('Failed to list community personas:', error);
+    return [];
+  }
+}
+
+// 커뮤니티 페르소나 읽기
+async function readCommunityPersona(name) {
+  const filePath = path.join(COMMUNITY_DIR, `${name}.txt`);
+  try {
+    const content = await fs.readFile(filePath, 'utf-8');
+    return content;
+  } catch (error) {
+    throw new Error(`Community persona "${name}" not found`);
+  }
+}
+
+// 커뮤니티 페르소나를 로컬에 설치
+async function installCommunityPersona(name) {
+  const communityPath = path.join(COMMUNITY_DIR, `${name}.txt`);
+  const localPath = path.join(PERSONA_DIR, `${name}.txt`);
+
+  try {
+    const content = await fs.readFile(communityPath, 'utf-8');
+    await fs.writeFile(localPath, content, 'utf-8');
+    return localPath;
+  } catch (error) {
+    throw new Error(`Failed to install community persona "${name}": ${error.message}`);
+  }
 }
 
 // 스마트 페르소나 제안
@@ -276,6 +341,33 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           properties: {},
         },
       },
+      {
+        name: 'browse_community',
+        description: '커뮤니티 페르소나 컬렉션을 탐색합니다 (GitHub에서 공유된 무료 페르소나)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            category: {
+              type: 'string',
+              description: '필터링할 카테고리 (선택사항): Programming, Creative, Business, Education, Design 등',
+            },
+          },
+        },
+      },
+      {
+        name: 'install_community_persona',
+        description: '커뮤니티 페르소나를 로컬 컬렉션에 설치합니다',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              description: '설치할 커뮤니티 페르소나 이름',
+            },
+          },
+          required: ['name'],
+        },
+      },
     ],
   };
 });
@@ -428,6 +520,85 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: 'text',
               text: `📊 Persona Usage Analytics\n\n사용 횟수:\n${usageList || '  (no data)'}\n\n주요 컨텍스트 패턴:\n${patternsList || '  (no data)'}\n\n💡 이 데이터는 로컬에만 저장되며 전송되지 않습니다.`,
+            },
+          ],
+        };
+      }
+
+      case 'browse_community': {
+        const personas = await listCommunityPersonas();
+
+        if (personas.length === 0) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: '📦 커뮤니티 페르소나가 아직 없습니다.\n\nCONTRIBUTING.md를 참조하여 첫 번째 기여자가 되어보세요!',
+              },
+            ],
+          };
+        }
+
+        // 카테고리 필터링
+        let filtered = personas;
+        if (args.category) {
+          filtered = personas.filter(p =>
+            p.category && p.category.toLowerCase().includes(args.category.toLowerCase())
+          );
+        }
+
+        // 카테고리별로 그룹화
+        const byCategory = {};
+        filtered.forEach(p => {
+          const cat = p.category || 'Other';
+          if (!byCategory[cat]) {
+            byCategory[cat] = [];
+          }
+          byCategory[cat].push(p);
+        });
+
+        let output = '🌟 Community Persona Collection\n\n';
+        output += `Found ${filtered.length} persona(s)${args.category ? ` in category "${args.category}"` : ''}\n\n`;
+
+        for (const [category, list] of Object.entries(byCategory)) {
+          output += `## ${category}\n\n`;
+          list.forEach(p => {
+            output += `### ${p.name}\n`;
+            if (p.author) output += `👤 Author: ${p.author}\n`;
+            if (p.difficulty) output += `📊 Difficulty: ${p.difficulty}\n`;
+            if (p.persona) output += `📝 Description: ${p.persona}\n`;
+            if (p['use']) output += `💡 Use Cases: ${p['use']}\n`;
+            output += `\n📥 Install: \`install_community_persona\` with name "${p.name}"\n\n`;
+          });
+        }
+
+        output += '\n---\n\n';
+        output += '💡 **Tip**: After installing, use @persona:name to activate\n';
+        output += '📚 **More info**: See CONTRIBUTING.md to add your own persona\n';
+        output += '🎯 **Vision**: Check VISION.md for the Persona Marketplace roadmap';
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: output,
+            },
+          ],
+        };
+      }
+
+      case 'install_community_persona': {
+        const installedPath = await installCommunityPersona(args.name);
+
+        // 간단한 프리뷰 제공
+        const content = await readCommunityPersona(args.name);
+        const preview = content.split('\n').slice(0, 10).join('\n');
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `✅ Persona "${args.name}" installed successfully!\n\n📁 Location: ${installedPath}\n\n📄 Preview:\n${preview}\n...\n\n💡 **How to use:**\n@persona:${args.name} your question or task\n\nExample:\n@persona:${args.name} help me with this code\n\n🎯 The persona will only activate when you use the @persona:${args.name} trigger (Submarine Mode = 0 tokens otherwise)`,
             },
           ],
         };
