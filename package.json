@@ -1,14 +1,19 @@
 {
   "name": "persona-mcp",
   "version": "2.0.0",
-  "description": "Advanced Persona MCP with 26 world-class expert personas, smart context detection, persona chaining, and community marketplace. Submarine Mode for 80%+ token savings.",
+  "description": "Advanced Persona MCP with 100+ world-class expert personas, smart context detection, persona chaining, and community marketplace. Submarine Mode for 80%+ token savings.",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
   "bin": {
-    "persona-mcp": "./index.js"
+    "persona-mcp": "./dist/index.js"
   },
   "scripts": {
-    "start": "node index.js"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [
     "mcp",
@@ -24,5 +29,12 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "docx": "^9.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.8",
+    "zod": "^3.25.76"
   }
 }
