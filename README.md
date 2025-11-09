@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Stars](https://img.shields.io/github/stars/seanshin0214/persona-mcp?style=social)](https://github.com/seanshin0214/persona-mcp)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-[![Community Personas](https://img.shields.io/badge/personas-26-blue)](https://github.com/seanshin0214/persona-mcp/tree/main/community)
+[![Community Personas](https://img.shields.io/badge/personas-103-blue)](https://github.com/seanshin0214/persona-mcp/tree/main/community)
 
 An advanced persona management MCP server for Claude Desktop that revolutionizes how AI maintains specialized expertise while dramatically reducing token consumption.
 
@@ -14,7 +14,7 @@ An advanced persona management MCP server for Claude Desktop that revolutionizes
 ## ✨ What is Persona MCP?
 
 Persona MCP is a **Model Context Protocol (MCP) server** that allows you to:
-- 🎯 **Switch between 26 world-class expert personas** on demand
+- 🎯 **Switch between 103 world-class expert personas** on demand
 - 🚢 **Save 80%+ tokens** with "Submarine Mode" (0 tokens until triggered)
 - 🧠 **Smart context detection** - AI suggests the right persona automatically
 - 🔗 **Chain personas** for multi-step workflows
@@ -34,7 +34,8 @@ Persona MCP is a **Model Context Protocol (MCP) server** that allows you to:
 - **🧠 Smart Context Detection**: AI analyzes conversation and suggests optimal persona
 - **🔗 Persona Chaining**: Execute multiple personas sequentially for complex tasks
 - **📊 Usage Analytics**: Track patterns and improve recommendations (local storage only)
-- **🌟 Community Collection**: 26 expert personas ready to use
+- **🌟 Community Collection**: 103 expert personas ready to use
+- **🏛️ The Council for Future Design**: 8 world-class advisory personas (NEW!)
 
 ---
 
@@ -142,7 +143,47 @@ Reason: Educational context detected
 
 ## 🌟 Community Persona Collection
 
-**26 world-class expert personas included!**
+**103 world-class expert personas included!**
+
+### 🏛️ The Council for Future Design (NEW!)
+
+**8 Executive-Level Advisory Personas for Strategic Decision-Making**
+
+The Council represents the pinnacle of business expertise - world-class advisors who have shaped Fortune 100 companies, led $15B+ deals, and transformed entire industries. Each brings 20+ years of experience and proven methodologies.
+
+#### Strategic & Leadership (96-98)
+- `96-strategic-oracle` - **전략의 현자**: MIT Systems Dynamics PhD, 15yr McKinsey Partner, WEF Advisor. 7-dimension macro analysis, 4th-gen scenario planning, Real Options valuation
+- `97-ethical-technologist` - **윤리적 기술 설계자**: Google AI Ethics Board founder, DeepMind Safety, IEEE P7000 Chair. AI fairness (LIME/SHAP), Zero Trust security, Differential Privacy
+- `98-governance-guardian` - **거버넌스 수호자**: Yale Law JD, 3x S&P 500 Board Chair, SEC Enforcement. Board optimization, CEO succession, crisis management (6-hour golden time)
+
+#### People & Markets (99-100)
+- `99-human-dynamics-architect` - **인간 역학 설계자**: Harvard Org Psych PhD, Google People Ops VP (Project Aristotle). ONA, psychological safety, generational integration, continuous performance (OKRs)
+- `100-market-experience-creator` - **시장 경험 창조자**: Stanford GSB, P&G Brand Director, Apple CX VP, Tesla CMO. Brand architecture, 15-20 touchpoint orchestration, Marketing Mix Modeling, D2C transformation
+
+#### Execution & Growth (101-102)
+- `101-execution-capital-alchemist` - **실행 자본 연금술사**: Wharton MBA, McKinsey Ops Partner, Goldman M&A MD, KKR/Blackstone. DCF/LBO modeling, Lean Six Sigma DMAIC, PMI 100-day plans, turnaround ($500M saved)
+- `102-agile-growth-architect` - **민첩한 성장 설계자**: Google X, Y Combinator Partner, 3x Unicorn founder, a16z. Product-Market Fit (Sean Ellis Test), AARRR funnel, viral growth (K-factor), 0→$10M ARR playbooks
+
+#### Sustainability (103)
+- `103-sustainability-policy-shaper` - **지속가능성 정책 설계자**: Harvard Kennedy MPA, UN SDG Officer, World Bank Green Bond, EU Climate Advisor. ESG materiality, Scope 1/2/3, Science-Based Targets, Net Zero roadmaps, PPP structures
+
+**When to Use the Council:**
+- Complex strategic decisions requiring multiple perspectives
+- M&A integration, transformation, or turnaround scenarios
+- Balancing innovation, ethics, profitability, and sustainability
+- Building world-class teams, boards, and governance structures
+
+**Example Council Session:**
+```
+You: "@persona:96-strategic-oracle Should we enter the AGI market given 2030 timeline?"
+[Strategic Oracle analyzes with 4 scenarios, Real Options]
+
+You: "@persona:97-ethical-technologist What are the AI ethics implications?"
+[Ethical Technologist applies 3-filter framework, TCFD risks]
+
+You: "@persona:101-execution-capital-alchemist What's the financial model?"
+[Execution Alchemist builds LBO model, Unit Economics, IRR projections]
+```
 
 ### Innovation & Technology (5)
 - `innovation-expert` - Innovation strategy and disruption analysis
