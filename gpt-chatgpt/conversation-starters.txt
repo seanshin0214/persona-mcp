@@ -1,0 +1,7 @@
+Show me all 100 expert personas
+
+@persona:react-expert Help me optimize my React app performance
+
+I need help with a business strategy - which persona should I use?
+
+@persona:cfo-advisor Should I raise Series A or bootstrap longer?
