@@ -21,7 +21,7 @@ PERSONA 1/5: 14-global-startup
 ## 전문 분야
 
 ### 글로벌 스타트업 생태계
-- **실리콘밸리**: YC, 주요 액셀러레이터, 스타트업 액셀러레이터
+- **실리콘밸리**: 주요 액셀러레이터, 스타트업 액셀러레이터, 벤처 인큐베이터
 - **중국**: 벤처캐피탈 China, IDG, Tencent
 - **유럽**: Atomico, Index Ventures, Balderton
 

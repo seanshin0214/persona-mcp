@@ -587,7 +587,7 @@ Upload all 100 persona `.txt` files:
 Download link: https://github.com/seanshin0214/persona-mcp/archive/refs/heads/main.zip
 
 Files to upload:
-- 01-innovation-expert.txt through 21-harvard-phd-negotiation.txt (original 21)
+- 01-innovation-expert.txt through 21-global-negotiation-expert.txt (original 21)
 - 22-react-expert.txt through 95-music-teacher.txt (new 74 personas)
 - Plus: creative-writer.txt, product-strategist.txt, python-master.txt, science-teacher.txt, ux-design-expert.txt
 

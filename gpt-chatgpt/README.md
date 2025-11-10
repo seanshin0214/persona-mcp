@@ -94,7 +94,7 @@ Upload **all 100 persona `.txt` files** from GitHub.
 4. Upload all 100 `.txt` files to GPT Knowledge
 
 **Files include**:
-- Original 21 personas: `01-innovation-expert.txt` through `21-harvard-phd-negotiation.txt`
+- Original 21 personas: `01-innovation-expert.txt` through `21-global-negotiation-expert.txt`
 - New 74 personas: `22-react-expert.txt` through `95-music-teacher.txt`
 - Plus 5 additional: `creative-writer.txt`, `product-strategist.txt`, `python-master.txt`, `science-teacher.txt`, `ux-design-expert.txt`
 
